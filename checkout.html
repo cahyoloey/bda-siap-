@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout Paket Pro · Siap?</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22301C;--cream:#FBF6EC;--deep:#F3EBDA;--line:#E5DCC8;--terra:#C4622D;--sage:#6F8A5B;--mustard:#E3B23C}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink)}
+a{color:var(--terra)}.top{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:Fraunces,serif;font-size:24px;text-decoration:none;color:var(--ink)}
+.wrap{max-width:900px;margin:0 auto;padding:36px 20px 70px}h1{font-family:Fraunces,serif;font-weight:500;font-size:34px;margin:0 0 6px}
+.sub{color:#5a6652;margin:0 0 28px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px}.box h2{font-size:16px;margin:0 0 16px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;font-size:15px}.row.tot{border-top:1px solid var(--line);margin-top:8px;padding-top:16px;font-weight:600;font-size:18px}
+.feat{list-style:none;padding:0;margin:14px 0 0;font-size:14px;line-height:1.5;color:#46543e}.feat li{display:flex;gap:8px;margin:6px 0}.feat li:before{content:"✓";color:var(--sage);font-weight:700}
+.step{display:flex;gap:10px;align-items:center;font-size:13px;color:#5a6652;margin:0 0 26px}.step b{background:var(--ink);color:#fff;border-radius:100px;padding:3px 10px;font-weight:500}.step span.off b{background:var(--line);color:#5a6652}
+input{width:100%;padding:12px 14px;margin:0 0 10px;border:1px solid var(--line);border-radius:10px;font:inherit}
+button{width:100%;background:var(--terra);color:#fff;border:0;border-radius:100px;padding:15px;font:inherit;font-weight:600;cursor:pointer}button:disabled{opacity:.6;cursor:wait}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:10px}
+.msg{font-size:13px;color:#B3402A;min-height:18px;margin:6px 0}.ok{color:var(--sage)}.note{font-size:12.5px;color:#6a7662;line-height:1.6;margin-top:14px}
+.pay{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.pay span{background:var(--deep);border-radius:100px;padding:6px 12px;font-size:13px}
+.done{text-align:center;padding:30px 10px}.done h2{font-family:Fraunces,serif;font-size:28px;font-weight:500;margin:0 0 8px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="top"><a class="logo" href="index.html">Siap?</a><a href="index.html#paket">← Kembali ke paket</a></div>
+<div class="wrap"><h1>Checkout</h1><p class="sub">Selesaikan pembelian Paket Pro dalam dua langkah.</p>
+<div class="grid">
+  <div class="box" id="left"></div>
+  <div class="box"><h2>Ringkasan pesanan</h2>
+    <div class="row"><span>Siap? Paket Pro<br><small style="color:#6a7662">1 bulan</small></span><span>Rp10.000</span></div>
+    <div class="row"><span>Biaya layanan</span><span>Rp0</span></div>
+    <div class="row tot"><span>Total</span><span>Rp10.000</span></div>
+    <ul class="feat"><li>AI Career Coach tanpa batas harian</li><li>Rekomendasi latihan lengkap sesuai hasil tesmu</li><li>Semua fitur paket Gratis</li></ul>
+  </div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+var C=window.SIAP_CONFIG||{},left=document.getElementById('left'),sb=null,user=null,profile=null,mode='masuk';
+function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var sid;try{sid=localStorage.getItem('siap_sid')||'anon'}catch(e){sid='anon'}
+function track(n,m){if(sb)sb.from('events').insert({name:n,session_id:sid,user_id:user?user.id:null,meta:m||{}}).then(function(){})}
+function isPro(){return !!(profile&&profile.plan==='pro'&&profile.plan_until&&new Date(profile.plan_until)>new Date())}
+function steps(n){return '<div class="step"><span class="'+(n>1?'off':'')+'"><b>1</b> Akun</span> —— <span class="'+(n<2?'off':'')+'"><b>2</b> Pembayaran</span></div>'}
+
+function authView(msg){
+  left.innerHTML=steps(1)+'<h2>'+(mode==='masuk'?'Masuk ke akunmu':'Buat akun')+'</h2><input id="e" type="email" placeholder="Email" autocomplete="email"><input id="p" type="password" placeholder="Kata sandi (min. 6 karakter)"><div class="msg" id="m">'+esc(msg||'')+'</div><button id="go">'+(mode==='masuk'?'Masuk dan lanjut':'Daftar dan lanjut')+'</button><button class="ghost" id="sw">'+(mode==='masuk'?'Belum punya akun? Daftar':'Sudah punya akun? Masuk')+'</button>';
+  document.getElementById('sw').onclick=function(){mode=mode==='masuk'?'daftar':'masuk';authView()};
+  document.getElementById('go').onclick=async function(){
+    var a={email:document.getElementById('e').value.trim(),password:document.getElementById('p').value};
+    document.getElementById('m').textContent='Memproses...';
+    var r=mode==='daftar'?await sb.auth.signUp(a):await sb.auth.signInWithPassword(a);
+    if(r.error)return authView(r.error.message);
+    if(!r.data.session)return authView('Cek email untuk konfirmasi, lalu masuk.');
+    await load(); track(mode==='daftar'?'daftar':'login');
+  };
+}
+function payView(){
+  if(isPro()){left.innerHTML=steps(2)+'<div class="done"><h2>Paket Pro kamu aktif</h2><p>Berlaku sampai '+new Date(profile.plan_until).toLocaleDateString('id-ID')+'.</p><a href="index.html">Kembali ke Siap?</a></div>';return}
+  left.innerHTML=steps(2)+'<h2>Pembayaran</h2><p style="font-size:14px;margin:0 0 12px">Akun: <b>'+esc(user.email)+'</b> · <a href="#" id="lo">ganti</a></p><div class="pay"><span>QRIS</span><span>GoPay</span><span>Transfer bank (VA)</span></div><div class="msg" id="m"></div><button id="pay">Bayar Rp10.000</button><p class="note">Metode pembayaran dipilih di jendela berikutnya. Pembayaran diproses oleh Midtrans. '+(C.MIDTRANS_PRODUCTION?'':'<b>Mode uji coba:</b> tidak ada uang sungguhan yang dipotong.')+'</p>';
+  document.getElementById('lo').onclick=async function(e){e.preventDefault();await sb.auth.signOut();user=null;authView()};
+  document.getElementById('pay').onclick=pay;
+}
+function loadSnap(){return new Promise(function(ok,fail){if(window.snap)return ok();var s=document.createElement('script');s.src=(C.MIDTRANS_PRODUCTION?'https://app.midtrans.com':'https://app.sandbox.midtrans.com')+'/snap/snap.js';s.setAttribute('data-client-key',C.MIDTRANS_CLIENT_KEY);s.onload=ok;s.onerror=fail;document.head.appendChild(s)})}
+async function pay(){
+  var b=document.getElementById('pay'),m=document.getElementById('m');b.disabled=true;m.textContent='';track('klik_bayar');
+  try{
+    var s=(await sb.auth.getSession()).data.session;
+    var r=await fetch('/api/create-transaction',{method:'POST',headers:{Authorization:'Bearer '+s.access_token}});
+    var d=await r.json();if(!r.ok)throw 0;await loadSnap();
+    window.snap.pay(d.token,{
+      onSuccess:function(){track('bayar_selesai_di_snap');waiting()},
+      onPending:function(){track('bayar_pending');m.className='msg ok';m.textContent='Menunggu pembayaranmu. Selesaikan sesuai petunjuk, lalu muat ulang halaman ini.';b.disabled=false},
+      onError:function(){m.textContent='Pembayaran gagal. Coba lagi.';b.disabled=false},
+      onClose:function(){track('tutup_pembayaran');b.disabled=false}});
+  }catch(e){m.textContent='Pembayaran belum bisa dibuka. Cek pengaturan server/Midtrans.';b.disabled=false}
+}
+function waiting(){
+  left.innerHTML=steps(2)+'<div class="done"><h2>Memeriksa pembayaran...</h2><p>Sebentar, status Pro sedang diaktifkan.</p></div>';
+  var n=0,t=setInterval(async function(){n++;await load(true);if(isPro()){clearInterval(t)}else if(n>12){clearInterval(t);left.innerHTML=steps(2)+'<div class="done"><h2>Pembayaran diterima</h2><p>Aktivasi masih diproses. Muat ulang halaman ini sebentar lagi.</p></div>'}},2500);
+}
+async function load(quiet){
+  var s=(await sb.auth.getSession()).data.session;user=s?s.user:null;profile=null;
+  if(user){profile=(await sb.from('profiles').select('*').eq('id',user.id).single()).data}
+  if(quiet&&!isPro())return; user?payView():authView();
+}
+if(!C.SUPABASE_URL){left.innerHTML='<p class="msg">Supabase belum diisi di config.js (lihat README).</p>'}
+else{sb=supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY);load().then(function(){track('lihat_checkout')})}
+</script></body></html>

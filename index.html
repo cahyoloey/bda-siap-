@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siap? — Teman siap-siap kerja pertama kali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;
+    --cream-deep:#F3ECE0;
+    --ink:#22301C;
+    --ink-soft:#4B5A42;
+    --sage:#5C7A4A;
+    --sage-deep:#3F5733;
+    --terracotta:#D98B6B;
+    --mustard:#E3B23C;
+    --line:#DCD3C0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;}
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 32px;max-width:1120px;margin:0 auto;
+  }
+  .logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:-0.01em;}
+  .logo span{color:var(--sage);}
+  .navlinks{display:flex;gap:32px;font-size:15px;color:var(--ink-soft);}
+  .navlinks a{text-decoration:none;transition:color .15s;}
+  .navlinks a:hover{color:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;
+    padding:56px 0 96px;align-items:center;
+  }
+  .hero h1{
+    font-size:52px;line-height:1.08;font-weight:500;letter-spacing:-0.015em;
+    margin:0 0 22px;
+  }
+  .hero h1 em{font-style:italic;color:var(--sage-deep);}
+  .hero p.lead{
+    font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:46ch;margin:0 0 32px;
+  }
+  .hero-stats{display:flex;gap:28px;margin-bottom:34px;}
+  .stat b{font-family:'Fraunces',serif;font-size:26px;display:block;color:var(--sage-deep);}
+  .stat span{font-size:13px;color:var(--ink-soft);}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;border-radius:100px;font-size:15px;font-weight:600;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--sage-deep);color:var(--cream);}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(63,87,51,.28);}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  /* Hero mock chat */
+  .chatcard{
+    background:var(--ink);border-radius:22px;padding:22px;
+    box-shadow:0 30px 60px -20px rgba(34,48,28,.45);
+    position:relative;
+  }
+  .chatcard::before{
+    content:"";position:absolute;top:-14px;right:34px;width:26px;height:26px;
+    background:var(--mustard);border-radius:50%;
+  }
+  .chat-tag{
+    font-size:12px;color:#C9D6BE;display:flex;align-items:center;gap:8px;margin-bottom:16px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--mustard);}
+  .bubble{
+    border-radius:14px;padding:13px 16px;font-size:14.5px;line-height:1.5;margin-bottom:10px;max-width:88%;
+  }
+  .bubble.user{background:#374A2C;color:#EFEDE2;margin-left:auto;border-bottom-right-radius:4px;}
+  .bubble.ai{background:#F3ECE0;color:var(--ink);border-bottom-left-radius:4px;}
+  .bubble.ai b{color:var(--sage-deep);}
+  .chat-input{
+    margin-top:14px;background:#2F3E27;border-radius:100px;padding:12px 16px;
+    display:flex;align-items:center;justify-content:space-between;color:#9FB08E;font-size:13px;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:88px 0;}
+  .section-head{max-width:640px;margin-bottom:52px;}
+  .section-head h2{font-size:36px;font-weight:500;line-height:1.2;margin:0 0 14px;letter-spacing:-0.01em;}
+  .section-head p{font-size:16.5px;color:var(--ink-soft);line-height:1.6;margin:0;}
+
+  /* ---------- MASALAH → FITUR narrative rows ---------- */
+  .feature-row{
+    display:grid;grid-template-columns:0.85fr 1.15fr;gap:48px;
+    padding:44px 0;border-top:1px solid var(--line);
+    align-items:center;
+  }
+  .feature-row:last-child{border-bottom:1px solid var(--line);}
+  .feature-tag{
+    font-size:13px;color:var(--terracotta);font-weight:600;margin-bottom:10px;
+  }
+  .feature-row h3{font-size:25px;font-weight:500;margin:0 0 12px;line-height:1.3;}
+  .feature-row p{font-size:15.5px;color:var(--ink-soft);line-height:1.65;margin:0 0 16px;max-width:44ch;}
+  .feature-quote{
+    font-size:14px;color:var(--ink-soft);border-left:2px solid var(--sage);padding-left:14px;font-style:italic;
+  }
+  .feature-visual{
+    background:var(--cream-deep);border-radius:18px;padding:26px;min-height:220px;
+    display:flex;flex-direction:column;justify-content:center;gap:12px;
+  }
+
+  /* mini widgets inside visuals */
+  .skillbar{display:flex;align-items:center;gap:12px;font-size:13.5px;}
+  .skillbar .label{width:120px;color:var(--ink-soft);flex-shrink:0;}
+  .track{flex:1;height:8px;background:#E7E0D0;border-radius:100px;overflow:hidden;}
+  .fill{height:100%;border-radius:100px;background:var(--sage);}
+  .skillbar .val{width:34px;text-align:right;font-weight:600;color:var(--sage-deep);}
+
+  .storycard{background:var(--cream);border-radius:12px;padding:16px 18px;border:1px solid var(--line);}
+  .storycard .who{font-size:12.5px;color:var(--terracotta);font-weight:600;margin-bottom:6px;}
+  .storycard p{margin:0;font-size:14px;color:var(--ink-soft);}
+
+  .mentor-msg{background:var(--cream);border-radius:12px;padding:14px 16px;border:1px solid var(--line);font-size:14px;color:var(--ink-soft);}
+  .mentor-msg b{color:var(--ink);}
+
+  /* ---------- DEMO AI (interactive) ---------- */
+  .demo{
+    background:var(--ink);border-radius:26px;padding:52px;color:var(--cream);
+  }
+  .demo-inner{display:grid;grid-template-columns:0.8fr 1.2fr;gap:44px;}
+  .demo h2{color:var(--cream);font-size:32px;margin:0 0 14px;font-weight:500;}
+  .demo p{color:#C9D6BE;font-size:15.5px;line-height:1.6;margin:0 0 24px;max-width:38ch;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:#33452A;border:1px solid #4A5F3E;color:#E3E9D8;font-size:13px;
+    padding:9px 14px;border-radius:100px;cursor:pointer;transition:.15s;
+  }
+  .chip:hover{background:#4A5F3E;}
+  .demo-panel{background:#2A3822;border-radius:18px;padding:22px;min-height:340px;display:flex;flex-direction:column;}
+  #demoLog{flex:1;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:280px;padding-right:4px;}
+  #demoLog .bubble.ai{background:#3A4B31;color:#EFEDE2;}
+  #demoLog .bubble.ai b{color:var(--mustard);}
+  #demoLog .bubble.user{background:var(--sage);color:#1B2415;}
+  .demo-form{display:flex;gap:10px;margin-top:16px;}
+  .demo-form input{
+    flex:1;border-radius:100px;border:1px solid #4A5F3E;background:#1F2A19;color:var(--cream);
+    padding:12px 18px;font-size:14px;font-family:'Inter',sans-serif;
+  }
+  .demo-form input:focus{outline:1px solid var(--mustard);}
+  .demo-form button{
+    border:none;background:var(--mustard);color:#2A2108;border-radius:100px;padding:12px 20px;
+    font-weight:700;font-size:14px;cursor:pointer;
+  }
+  .typing{display:inline-flex;gap:4px;padding:4px 0;}
+  .typing span{width:6px;height:6px;background:#9FB08E;border-radius:50%;animation:blink 1.2s infinite ease-in-out;}
+  .typing span:nth-child(2){animation-delay:.2s;}
+  .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+
+  /* ---------- FOOTER / CTA ---------- */
+  .closing{text-align:center;padding:96px 0 60px;}
+  .closing h2{font-size:38px;font-weight:500;margin:0 0 16px;}
+  .closing p{color:var(--ink-soft);font-size:16px;margin:0 0 30px;}
+  footer{border-top:1px solid var(--line);padding:28px 0;font-size:13px;color:var(--ink-soft);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+
+  /* ---------- HARGA / PAKET ---------- */
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;}
+  .plan{
+    background:var(--cream-deep);border:1px solid var(--line);border-radius:22px;
+    padding:34px;display:flex;flex-direction:column;position:relative;
+  }
+  .plan.pro{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  .plan-badge{
+    position:absolute;top:-13px;right:28px;background:var(--mustard);color:#2A2108;
+    font-size:12px;font-weight:700;padding:6px 14px;border-radius:100px;
+  }
+  .plan-name{font-size:13px;font-weight:600;color:var(--terracotta);margin-bottom:8px;}
+  .plan.pro .plan-name{color:var(--mustard);}
+  .plan-price{font-family:'Fraunces',serif;font-size:40px;font-weight:500;line-height:1.1;margin:0 0 6px;}
+  .plan-price small{font-family:'Inter',sans-serif;font-size:14px;font-weight:400;color:var(--ink-soft);}
+  .plan.pro .plan-price small{color:#C9D6BE;}
+  .plan-desc{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 22px;}
+  .plan.pro .plan-desc{color:#C9D6BE;}
+  .plan ul{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;}
+  .plan li{font-size:14.5px;line-height:1.5;display:flex;gap:10px;}
+  .plan li::before{content:"✓";color:var(--sage);font-weight:700;flex-shrink:0;}
+  .plan.pro li::before{color:var(--mustard);}
+  .btn-mustard{background:var(--mustard);color:#2A2108;}
+  .btn-mustard:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(227,178,60,.3);}
+  .plan .btn{justify-content:center;}
+  .plan-note{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:26px 0 0;max-width:80ch;}
+  .limit-note{font-size:12.5px;color:#9FB08E;margin:14px 0 0;}
+  #proModal{
+    position:fixed;inset:0;background:rgba(34,48,28,.55);display:none;
+    align-items:center;justify-content:center;padding:24px;z-index:50;
+  }
+  #proModal.show{display:flex;}
+  .modal-box{background:var(--cream);border-radius:20px;padding:34px;max-width:420px;text-align:center;}
+  .modal-box h3{font-size:24px;font-weight:500;margin:0 0 12px;}
+  .modal-box p{font-size:15px;line-height:1.6;color:var(--ink-soft);margin:0 0 22px;}
+
+  @media (max-width:860px){
+    .plans{grid-template-columns:1fr;}
+    .hero{grid-template-columns:1fr;}
+    .feature-row{grid-template-columns:1fr;}
+    .demo-inner{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .navlinks{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Siap<span>?</span></div>
+  <div class="navlinks">
+    <a href="#masalah">Kenapa Siap?</a>
+    <a href="#fitur">Fitur</a>
+    <a href="#coba">Coba AI-nya</a>
+    <a href="#paket">Paket</a>
+  </div>
+  <a href="#coba" class="btn btn-ghost" style="padding:10px 20px;font-size:14px;">Mulai gratis</a>
+</nav>
+
+<header class="wrap hero">
+  <div>
+    <h1>Kerja pertama itu <em>bikin deg-degan</em>. Wajar kok.</h1>
+    <p class="lead">Siap? bantu kamu — mahasiswa tingkat akhir atau lulusan baru — kenal dunia kerja sebelum benar-benar masuk ke dalamnya. Ada cerita asli dari yang sudah pernah di posisimu, latihan skill yang tepat sasaran, dan teman ngobrol AI yang paham kecemasanmu.</p>
+    <div class="hero-stats">
+      <div class="stat"><b>6,1/10</b><span>rata-rata skor siap kerja<br>anak muda saat ini</span></div>
+      <div class="stat"><b>10/10</b><span>responden cuma andalkan<br>keluarga & teman</span></div>
+    </div>
+    <div class="cta-row">
+      <a href="#coba" class="btn btn-primary">Ngobrol sama Siap? →</a>
+      <a href="#masalah" class="btn btn-ghost">Kenapa ini penting?</a>
+    </div>
+  </div>
+
+  <div class="chatcard">
+    <div class="chat-tag"><span class="dot"></span> Siap? AI Career Coach</div>
+    <div class="bubble user">aku takut banget salah pas kerja nanti, gimana ya?</div>
+    <div class="bubble ai">Rasa itu wajar — <b>7 dari 10 orang</b> di data kami bilang hal yang sama. Yang beda bukan siapa yang takut, tapi siapa yang punya cara menghadapinya. Mau coba latihan kecil buat mulai?</div>
+    <div class="bubble user">mau dong</div>
+    <div class="bubble ai">Oke, mulai dari yang paling sering bikin kaget: <b>komunikasi di tempat kerja</b>. Aku kasih 1 simulasi singkat, 5 menit aja.</div>
+    <div class="chat-input"><span>Ketik pesan…</span><span>➤</span></div>
+  </div>
+</header>
+
+<section class="section wrap" id="masalah">
+  <div class="section-head">
+    <h2>Bukan cuma kamu yang merasa belum siap</h2>
+    <p>Dari survei terhadap 10 mahasiswa dan lulusan SMA/SMK, kami menemukan pola yang sama berulang — dan semuanya bisa dijelaskan oleh satu hal: akses ke informasi, latihan, dan pendampingan yang tepat masih belum merata.</p>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Masalah 01</div>
+      <h3>Bayangan kerja vs kenyataan kerja jauh beda</h3>
+      <p>Hampir semua responden kaget begitu mulai kerja: jam lebih panjang, tekanan lebih besar, dan aturan yang tidak diajarkan di bangku sekolah.</p>
+      <div class="feature-quote">"Ternyata dunia kerja lebih dinamis dan kompleks dibanding teori di kuliah." — Zaaroh, 21 th</div>
+    </div>
+    <div class="feature-visual">
+      <div class="storycard">
+        <div class="who">Cerita dari Randy, 23 th</div>
+        <p>"Dunia kerja nggak sesantai yang kubayangin, karena harus ngikutin aturan perusahaan yang ketat."</p>
+      </div>
+      <div class="storycard">
+        <div class="who">Cerita dari Iis, 21 th</div>
+        <p>"Ternyata kerjaan nggak seseram yang aku bayangin — asal tahu caranya belajar duluan."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Masalah 02</div>
+      <h3>Skill yang dilatih beda dengan yang dibutuhkan industri</h3>
+      <p>Semua responden sepakat soft skill itu penting — tapi paling jarang dilatih secara sengaja semasa sekolah/kuliah.</p>
+      <div class="feature-quote">"Aku pengen belajar public speaking dan manajemen stres dari sekarang, bukan pas udah kerja." — Zaaroh, 21 th</div>
+    </div>
+    <div class="feature-visual">
+      <div class="skillbar"><span class="label">Komunikasi</span><div class="track"><div class="fill" style="width:92%;background:var(--sage-deep)"></div></div><span class="val">92%</span></div>
+      <div class="skillbar"><span class="label">Adaptasi</span><div class="track"><div class="fill" style="width:85%;"></div></div><span class="val">85%</span></div>
+      <div class="skillbar"><span class="label">Kerja sama tim</span><div class="track"><div class="fill" style="width:78%;"></div></div><span class="val">78%</span></div>
+      <div class="skillbar"><span class="label">Excel / Office</span><div class="track"><div class="fill" style="width:50%;background:var(--mustard)"></div></div><span class="val">50%</span></div>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Masalah 03</div>
+      <h3>Kampus dan sekolah nyaris tidak hadir sebagai pendamping</h3>
+      <p>Semua 10 responden bilang keluarga dan teman adalah pihak yang paling membantu. Tidak satu pun menyebut peran kampus atau sekolah.</p>
+      <div class="feature-quote">"Dukungan dari orang terdekat jadi penyelamat utama secara mental — sekolah belum banyak bantu di proses ini."</div>
+    </div>
+    <div class="feature-visual">
+      <div class="mentor-msg"><b>Keluarga & teman</b> — disebut oleh 10/10 responden sebagai sosok pendukung utama.</div>
+      <div class="mentor-msg"><b>Kampus / sekolah</b> — disebut oleh 0/10 responden. Ini celah yang coba diisi Siap?.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="fitur">
+  <div class="section-head">
+    <h2>Tiga hal yang Siap? bantu kamu siapkan</h2>
+    <p>Setiap fitur dibangun langsung dari akar masalah yang kami temukan di riset — bukan tebak-tebakan.</p>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Fitur 01 — Cerita Nyata</div>
+      <h3>Dengar dari yang udah pernah di posisimu</h3>
+      <p>Kumpulan cerita singkat dari pekerja & alumni tentang kejutan pertama mereka di dunia kerja — biar bayanganmu lebih dekat sama kenyataan, bukan cuma dari drama atau rumor.</p>
+    </div>
+    <div class="feature-visual">
+      <div class="storycard"><div class="who">Filter: bidang, jenjang, kekhawatiran</div><p>Cari cerita yang paling relevan sama kekhawatiranmu sendiri — misalnya "takut nggak sesuai ekspektasi atasan".</p></div>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Fitur 02 — Latihan Terarah (AI)</div>
+      <h3>AI yang tahu skill mana yang perlu kamu latih duluan</h3>
+      <p>Isi tes singkat kesiapan kerja (5 menit), lalu AI menyusun urutan latihan yang paling relevan buat kamu — bukan modul acak yang sama untuk semua orang.</p>
+    </div>
+    <div class="feature-visual">
+      <div class="skillbar"><span class="label">Rekomendasi 1</span><div class="track"><div class="fill" style="width:100%;"></div></div><span class="val">🎯</span></div>
+      <div class="mentor-msg">Skor komunikasimu masih di bawah rata-rata teman seangkatan. <b>Mulai dari modul "Ngomong ke Atasan" (8 menit)</b>.</div>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <div class="feature-tag">Fitur 03 — Teman Ngobrol (AI)</div>
+      <h3>Career coach AI yang standby kapan pun kamu cemas</h3>
+      <p>Nggak semua orang punya kakak/mentor buat ditanya jam 11 malam sebelum interview besok pagi. Siap? AI Career Coach bisa.</p>
+    </div>
+    <div class="feature-visual">
+      <div class="mentor-msg"><b>Kamu:</b> "Interview besok pagi, aku parno banget"</div>
+      <div class="mentor-msg"><b>Siap?:</b> Wajar. Yuk kita latihan jawab 3 pertanyaan yang paling sering muncul, sekarang.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="coba">
+  <div class="demo">
+    <div class="demo-inner">
+      <div>
+        <h2>Coba ngobrol sama Siap?</h2>
+        <p>Ini contoh AI Career Coach di produk Siap? — pilih satu kekhawatiran di bawah, atau ketik sendiri.</p>
+        <div class="chip-row">
+          <button type="button" class="chip" data-q="Aku takut nggak sesuai ekspektasi atasan">Takut nggak sesuai ekspektasi</button>
+          <button type="button" class="chip" data-q="Aku belum pernah magang, gimana dong">Belum pernah magang</button>
+          <button type="button" class="chip" data-q="Skill excel aku masih lemah">Excel masih lemah</button>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div id="demoLog">
+          <div class="bubble ai"><b>Siap?</b><br>Halo! Cerita aja apa yang lagi kamu khawatirin soal kerja nanti, aku bantu cariin arahnya 🙂</div>
+        </div>
+        <form class="demo-form" id="demoForm">
+          <input id="demoInput" type="text" placeholder="Ketik kekhawatiranmu di sini..." />
+          <button type="submit" id="demoSend">Kirim</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="paket">
+  <div class="section-head">
+    <h2>Mulai gratis. Upgrade kalau kamu butuh lebih.</h2>
+    <p>Fitur inti Siap? gratis, karena yang paling butuh pendampingan justru pencari kerja pertama yang belum berpenghasilan. Paket Pro opsional untuk kamu yang ingin latihan tanpa batas.</p>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">GRATIS</div>
+      <div class="plan-price">Rp0 <small>selamanya</small></div>
+      <p class="plan-desc">Semua yang kamu perlukan untuk mulai kenal dunia kerja.</p>
+      <ul>
+        <li>Tes kesiapan kerja (5 menit)</li>
+        <li>Simulasi dasar</li>
+        <li>Cerita nyata dari pekerja & alumni</li>
+        <li>Teman ngobrol AI dengan batas pemakaian harian</li>
+      </ul>
+      <a href="#coba" class="btn btn-ghost">Coba gratis</a>
+    </div>
+
+    <div class="plan pro">
+      <div class="plan-badge">Opsional</div>
+      <div class="plan-name">PRO</div>
+      <div class="plan-price">Rp10.000 <small>/ bulan</small></div>
+      <p class="plan-desc">Untuk kamu yang mau latihan sebanyak yang kamu perlu, kapan pun cemas datang.</p>
+      <ul>
+        <li>AI Career Coach tanpa batas harian</li>
+        <li>Rekomendasi latihan lengkap sesuai hasil tesmu</li>
+        <li>Semua fitur di paket Gratis</li>
+      </ul>
+      <button type="button" class="btn btn-mustard" id="openProBtn">Coba Paket Pro →</button>
+    </div>
+  </div>
+
+  <p class="plan-note">Kenapa ada batas harian di paket Gratis? Karena setiap chat AI punya biaya. Hasil dari Paket Pro dipakai untuk menutup biaya AI, supaya fitur inti tetap bisa gratis. Siap? saat ini gratis sebagai prototype. Paket Pro adalah rancangan model bisnis jika Siap? dikembangkan lebih lanjut.</p>
+</section>
+
+<section class="closing wrap">
+  <h2 class="serif">Siap-siap itu nggak harus sendirian.</h2>
+  <p>Fitur inti gratis. Paket Pro opsional kalau kamu butuh latihan tanpa batas.</p>
+  <a href="#coba" class="btn btn-primary">Mulai dengan Siap? →</a>
+</section>
+
+<footer class="wrap">
+  <span>Siap? — produk riset Kelompok 2, Bisnis Digital Analyst, Universitas Terbuka</span>
+  <span>Dibangun dari data survei 10 responden kesiapan kerja anak muda</span>
+</footer>
+
+<div id="proModal">
+  <div class="modal-box">
+    <h3>Paket Pro belum dibuka</h3>
+    <p>Siap? masih berupa prototype, jadi Paket Pro (Rp10.000 per bulan) baru rancangan. Terima kasih sudah tertarik!</p>
+    <button type="button" class="btn btn-primary" id="closeProBtn">Oke, mengerti</button>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `Kamu adalah "Siap?", AI career coach ramah untuk anak muda Indonesia (mahasiswa tingkat akhir & lulusan SMA/SMK) yang cemas menghadapi dunia kerja pertama kali.`;
+
+// Kamus jawaban berbasis topik — dicocokkan dengan banyak variasi kata kunci
+// biar bisa jawab hampir semua pertanyaan seputar kesiapan kerja tanpa perlu API luar.
+const topics = [
+  { id: 'ekspektasi', keys: ['ekspektasi','realita','kenyataan','bayangan','beda dari yang','gak sesuai','tidak sesuai','sesuai harapan'],
+    reply: "Wajar banget kalau bayangan kerja ternyata beda sama kenyataannya — ini justru salah satu temuan paling kuat dari riset kami. Hampir semua responden bilang hal yang sama: jam kerja lebih panjang dari yang dibayangin, tanggung jawabnya lebih berat, dan aturan-aturan kecil yang nggak pernah diajarin di bangku sekolah tiba-tiba jadi hal yang harus dikuasai dalam hitungan minggu. Yang menarik, orang yang paling kaget itu biasanya bukan yang paling malas persiapan — justru kadang yang udah nyiapin diri lama malah makin kaget karena bayangannya udah kepalang jauh dari kenyataan. Jadi triknya bukan berusaha 'menghindari kagetnya sama sekali', karena itu hampir mustahil, tapi lebih ke menurunkan jarak antara ekspektasi dan realita sedari awal — misalnya dengan dengerin cerita orang yang udah lebih dulu ngerasain. Kamu sendiri lagi mikirin bidang kerja apa nih, biar aku bisa kasih gambaran yang lebih spesifik?" },
+  { id: 'kesalahan', keys: ['salah','kesalahan','gagal','blunder','keliru','bikin masalah'],
+    reply: "Takut bikin kesalahan itu salah satu kekhawatiran paling umum yang kami temukan — 7 dari 10 responden bilang persis hal yang sama, jadi kalau kamu ngerasa gitu, kamu jelas nggak sendirian. Yang perlu digarisbawahi: nggak ada satupun pekerja baru, sepintar dan sesiap apapun dia, yang lolos dari fase bikin kesalahan di awal. Itu bagian dari proses belajar, bukan tanda kamu nggak layak di posisi itu. Yang justru membedakan orang yang 'terlihat siap' dan yang 'kelihatan struggling' bukan siapa yang paling jarang salah, tapi siapa yang paling cepat pulih dan jujur soal kesalahannya. Kalau kamu salah, coba biasakan 3 langkah ini: akui secepatnya (jangan ditutup-tutupi sampai membesar), tawarkan solusi atau perbaikan kalau bisa, dan jangan terlalu lama menyalahkan diri sendiri setelahnya. Atasan biasanya jauh lebih menghargai orang yang jujur dan cepat memperbaiki, dibanding yang sempurna tapi menutup-nutupi." },
+  { id: 'imposter', keys: ['imposter','minder','gak pantas','tidak pantas','gak layak','ragu diri','insecure'],
+    reply: "Perasaan 'aku sebenernya nggak sepantas ini, jangan-jangan mereka salah nerima aku' itu punya nama, namanya imposter syndrome — dan ini SANGAT umum dialami pekerja baru, bahkan yang udah persiapan paling matang sekalipun. Dari riset kami, justru salah satu responden yang udah magang dan aktif organisasi sejak semester 5 tetap ngerasain ini kuat banget, sampai skor kesiapannya jadi rendah meskipun secara pengalaman dia paling 'siap' di atas kertas. Jadi ini bukan soal kurang persiapan — ini soal cara otak kita memproses ketidakpastian. Coba ingat lagi pelan-pelan: proses rekrutmen itu nggak asal-asalan, ada alasan kenapa kamu yang dipilih di antara sekian banyak pelamar lain. Daripada fokus buat 'membuktikan diri' secepat mungkin ke semua orang, coba alihkan energinya ke belajar pelan-pelan dan konsisten — rasa itu biasanya mereda seiring waktu begitu kamu mulai kumpulin bukti-bukti kecil bahwa kamu bisa. Kalau perasaan ini kerasa berat banget sampai ganggu keseharianmu, nggak ada salahnya juga cerita ke orang terdekat atau profesional." },
+  { id: 'atasan', keys: ['atasan','bos','manager','supervisor','pimpinan'],
+    reply: "Komunikasi sama atasan emang salah satu hal yang paling bikin deg-degan di masa-masa awal kerja, apalagi kalau kamu belum kenal gaya kerja dan karakter orangnya. Satu hal yang perlu diingat: hampir semua atasan jauh lebih menghargai bawahan yang berani nanya waktu nggak paham instruksi, dibanding yang diam-diam asal jalan lalu hasilnya meleset jauh dari yang diminta — karena itu justru bikin kerjaan harus diulang dan buang waktu semua orang. Coba biasakan nanya dengan format yang jelas, misalnya: 'Saya mau pastiin dulu, maksud Bapak/Ibu soal [X] itu seperti [Y], apa benar begitu?' — itu kelihatan lebih meyakinkan dibanding cuma bilang 'saya kurang paham'. Selain itu, biasakan update progres kerjaan secara berkala walau nggak diminta, itu bikin atasan lebih percaya tanpa harus terus-terusan ngecek kamu. Mau coba latihan simulasi ngobrol sama 'atasan' versi latihan biar makin kebayang?" },
+  { id: 'magang', keys: ['magang','internship','belum pernah kerja','pengalaman kerja','fresh graduate','belum ada pengalaman'],
+    reply: "Belum punya pengalaman magang itu beneran nggak masalah sebesar yang kamu kira — di riset kami sendiri, ada responden yang persiapannya baru mulai persis sebelum melamar kerja, tanpa riwayat magang panjang, dan dia justru merasa paling siap dibanding yang lain. Sebaliknya, ada juga yang udah magang dan aktif organisasi sejak semester awal tapi tetap merasa belum siap. Jadi pengalaman formal semacam magang itu bukan jaminan mutlak — yang lebih menentukan adalah seberapa cepat kamu bisa belajar dari pengalaman kecil sehari-hari dan seberapa terbuka kamu menerima hal baru. Kalau kamu memang belum sempat magang, coba fokus ke hal-hal yang tetap bisa dibangun tanpa itu: pahami dasar-dasar industri yang kamu incar, latih soft skill komunikasi lewat kegiatan apapun yang kamu ikuti sekarang (organisasi, kerja kelompok, bahkan obrolan sehari-hari), dan cari cerita nyata dari orang yang sudah bekerja di bidang serupa biar bayanganmu makin dekat sama kenyataan." },
+  { id: 'excel', keys: ['excel','office','spreadsheet','rumus','microsoft','ms word','powerpoint'],
+    reply: "Excel/Office itu memang salah satu skill yang paling sering diminta di dunia kerja tapi anehnya jarang banget diajarkan secara detail dan praktis di sekolah maupun kuliah — makanya banyak yang kelabakan pas awal kerja tiba-tiba diminta bikin laporan atau rekap data. Kabar baiknya, ini termasuk skill yang paling cepat dikuasai dibanding soft skill, karena sifatnya teknis dan bisa dilatih step-by-step. Coba mulai dari yang paling sering dipakai di dunia kerja: rumus dasar seperti SUM, AVERAGE, IF, sama VLOOKUP/XLOOKUP buat nyari data, plus cara bikin tabel dan format yang rapi biar laporanmu enak dibaca orang lain. Setelah itu baru lanjut ke hal yang lebih advance kalau memang dibutuhkan posisi kamu, seperti pivot table atau grafik otomatis. Nggak perlu jago semuanya dari awal — yang penting paham logikanya, karena rumus spesifik selalu bisa dicari ulang pas dibutuhkan." },
+  { id: 'interview', keys: ['interview','wawancara','tes kerja','seleksi kerja'],
+    reply: "Interview emang salah satu momen yang paling bikin deg-degan, dan itu manusiawi banget — hampir semua orang, termasuk yang udah berpengalaman kerja bertahun-tahun, tetap merasa gugup sebelum interview penting. Yang bisa banget kamu kontrol adalah persiapannya. Coba mulai latihan jawab pertanyaan-pertanyaan yang hampir pasti muncul: 'coba ceritakan tentang dirimu', 'kenapa kamu tertarik kerja di sini', 'apa kelebihan dan kelemahanmu', dan 'di mana kamu melihat dirimu 5 tahun ke depan'. Triknya bukan menghafal jawaban kata per kata (karena itu malah kedengaran kaku), tapi siapin poin-poin inti yang mau kamu sampaikan, lalu latih menyampaikannya dengan bahasamu sendiri secara natural. Latihan di depan cermin, rekam pakai HP, atau simulasi sama teman itu semua bisa sangat membantu supaya pas hari-H kamu nggak blank. Satu lagi yang sering dilupakan: siapin juga 1-2 pertanyaan balik buat ditanyakan ke pewawancara, itu nunjukin kamu beneran tertarik sama posisinya." },
+  { id: 'gaji', keys: ['gaji','uang','keuangan','finansial','tabungan','boros'],
+    reply: "Soal gaji, ini salah satu hal yang paling sering bikin kaget lulusan baru — bukan cuma soal nominalnya, tapi soal harus mulai atur uang sendiri tanpa 'bantalan' dari orang tua kayak dulu. Salah satu responden kami bahkan cerita gajinya suka habis sebelum tanggal gajian berikutnya, dan itu ternyata dialami banyak orang, bukan cuma dia. Tips paling dasar yang bisa langsung dicoba dari gajian pertama: pisahkan uangmu ke beberapa 'pos' sejak awal — misalnya kebutuhan wajib (kos, makan, transport), tabungan/dana darurat, dan baru sisanya buat hiburan atau keinginan. Banyak orang kebalik urutannya: belanja dulu, sisanya baru ditabung — padahal idealnya nabung dulu di awal bulan, baru sisanya dipakai buat kebutuhan sehari-hari. Nggak perlu langsung sempurna, yang penting mulai dari kebiasaan kecil dan konsisten." },
+  { id: 'toxic', keys: ['toxic','rekan kerja galak','lingkungan kerja','bos galak','di-bully','dibully','digosipin','gosip kantor'],
+    reply: "Menghadapi lingkungan kerja yang kurang nyaman itu beneran berat, apalagi kalau kamu masih baru dan belum punya banyak 'modal kepercayaan' sama orang-orang di sekitar. Beberapa hal yang bisa bantu kamu bertahan sambil tetap jaga kesehatan mental: pertama, fokus jaga profesionalisme dalam kerjaanmu sendiri — itu hal yang selalu ada dalam kontrolmu, apapun sikap orang lain. Kedua, coba batasi cerita hal-hal personal ke rekan kerja yang belum benar-benar kamu percaya sepenuhnya, terutama di masa-masa awal — nggak perlu langsung terbuka ke semua orang. Ketiga, dan ini penting banget, coba cari minimal 1-2 orang (bisa rekan kerja yang kamu percaya, bisa juga orang di luar kantor) yang bisa jadi tempat cerita saat kamu capek secara mental. Kalau situasinya udah mengarah ke perlakuan yang benar-benar nggak wajar seperti pelecehan atau bullying yang terus-menerus, itu bukan sesuatu yang harus kamu tahan sendirian — biasanya ada jalur HR atau pihak berwenang yang bisa dilibatkan." },
+  { id: 'komunikasi', keys: ['komunikasi','ngomong','public speaking','bicara','presentasi','ngobrol sama'],
+    reply: "Komunikasi itu skill nomor satu yang paling sering disebut penting di riset kami — bahkan lebih sering disebut dibanding skill teknis seperti Excel atau bahasa asing. Tapi yang menarik, ini juga yang paling sering jadi sumber kekhawatiran, karena dianggap penting tapi jarang benar-benar dilatih secara sengaja semasa sekolah atau kuliah. Kabar baiknya, komunikasi itu skill yang bisa diasah bertahap, nggak harus langsung jago public speaking di depan banyak orang. Coba mulai dari hal-hal kecil dulu: biasakan menyampaikan pendapat dengan kalimat yang singkat dan jelas (nggak perlu muter-muter), aktif ambil giliran ngomong di rapat tim walau cuma 1-2 kalimat, dan latih mendengarkan dengan benar-benar fokus sebelum merespons — karena komunikasi yang baik itu separuh soal ngomong, separuhnya lagi soal mendengar. Semakin sering dilatih di situasi kecil dan santai, semakin natural juga nanti pas situasinya lebih formal atau menegangkan." },
+  { id: 'adaptasi', keys: ['adaptasi','beradaptasi','lingkungan baru','budaya kerja','culture'],
+    reply: "Butuh waktu buat beradaptasi di lingkungan baru itu benar-benar normal, dan riset yang kami baca juga menunjukkan adaptasi jadi salah satu kemampuan yang paling dicari dunia kerja saat ini — apalagi dengan makin banyaknya perubahan cara kerja, termasuk soal teknologi yang berkembang cepat. Triknya, jangan buru-buru pengen langsung 'nyambung' sama semua orang dan semua sistem kerja di minggu pertama. Coba luangkan waktu di awal buat mengamati dulu: bagaimana ritme kerja timmu, siapa biasanya jadi rujukan kalau ada masalah, gaya komunikasi yang dipakai (formal atau santai), sebelum kamu buru-buru menyesuaikan diri atau melempar ide-ide besar. Orang yang kelihatan 'cepat beradaptasi' biasanya bukan yang paling banyak bicara di awal, tapi yang paling jeli mengamati dulu sebelum bertindak. Pelan-pelan aja, adaptasi itu proses, bukan target yang harus selesai dalam hitungan hari." },
+  { id: 'jamkerja', keys: ['jam kerja','lembur','overtime','capek','lelah','burnout','kecapean'],
+    reply: "Jam kerja yang ternyata lebih panjang dari bayangan itu salah satu keluhan yang paling sering muncul di data kami — banyak yang kaget karena di kuliah/sekolah jadwalnya jauh lebih fleksibel, sementara di kerjaan tuntutannya lebih ketat dan kadang harus lembur. Ini penting buat diakui dari awal: kelelahan fisik dan mental di masa transisi ini itu nyata, bukan tanda kamu lemah atau kurang niat. Yang bisa kamu lakukan: coba tetap jaga waktu istirahat di luar jam kerja sebisa mungkin, walau kadang susah — misalnya pastikan jam tidur cukup dan sisihkan waktu buat hal yang bikin kamu rileks, meski cuma sebentar. Kalau memang beban kerjanya berlebihan secara terus-menerus (bukan cuma sesekali lembur karena deadline mendesak), itu topik yang layak dikomunikasikan baik-baik ke atasan, bukan sesuatu yang harus dipendam sendiri sampai burnout." },
+  { id: 'tanggungjawab', keys: ['tanggung jawab','disiplin','deadline','tenggat'],
+    reply: "Tuntutan disiplin dan tanggung jawab di dunia kerja emang beda level dibanding masa kuliah atau sekolah — kalau dulu telat ngumpulin tugas mungkin cuma dapat nilai dikurangi, di dunia kerja itu bisa berdampak ke tim lain yang nunggu hasil kerjaanmu. Kabar baiknya, ini justru salah satu hal yang paling bisa kamu latih dari sekarang, sebelum benar-benar kerja. Coba biasakan tiga kebiasaan kecil ini: catat semua deadline di satu tempat yang selalu kamu cek (kalender HP, notes, apapun yang konsisten kamu pakai), usahakan datang atau submit tepat waktu bahkan untuk hal-hal kecil, dan yang paling penting — kalau memang ada kendala yang bikin kamu bakal telat, komunikasikan itu sedini mungkin, jangan nunggu sampai deadline lewat baru ngasih tahu. Atasan biasanya jauh lebih memaklumi keterlambatan yang dikomunikasikan lebih awal dibanding yang baru ketahuan pas udah kepepet." },
+  { id: 'jurusan', keys: ['gak sesuai jurusan','tidak sesuai jurusan','beda jurusan','salah jurusan'],
+    reply: "Kerja di luar jurusan itu jauh lebih umum daripada yang kamu kira, dan dari riset kami sendiri banyak responden yang justru bekerja di bidang yang nggak sama persis dengan jurusan kuliahnya — dan mereka nggak selalu melihat itu sebagai hal buruk, malah banyak yang menganggapnya sebagai kesempatan belajar hal baru dan memperluas kemampuan. Yang perlu kamu sadari, sebagian besar skill yang paling dicari dunia kerja itu sifatnya lintas bidang alias transferable — seperti komunikasi, problem solving, kerja sama tim, dan kemampuan belajar cepat. Skill-skill ini tetap relevan mau kamu kerja di bidang yang sesuai jurusan atau nggak. Jadi daripada berkecil hati karena posisi kerjamu nggak 100% sesuai jurusan, coba fokus ke bagaimana caranya kamu memanfaatkan pengalaman dan cara berpikir dari jurusanmu buat menyelesaikan masalah di bidang barumu itu — itu justru sering jadi nilai tambah yang unik." },
+  { id: 'networking', keys: ['jaringan','networking','relasi','koneksi'],
+    reply: "Memperluas relasi itu penting banget buat cari peluang kerja, dan ini bukan cuma teori — dari riset kami, banyak responden yang justru dapat informasi lowongan kerja dari teman atau relasi terdekat, bukan cuma dari portal kerja resmi. Ini masuk akal karena info dari orang yang kita kenal biasanya lebih terpercaya dan kadang lebih cepat nyampe duluan sebelum resmi diumumkan ke publik. Kalau kamu ngerasa relasimu masih terbatas, nggak perlu langsung mikir networking dalam skala besar dan formal — mulai aja dari hal sederhana: aktif di organisasi atau komunitas yang sesuai minatmu, rajin follow-up obrolan ringan sama teman kuliah/sekolah yang udah lebih dulu kerja, atau ikut acara/seminar yang relevan sama bidang yang kamu incar. Networking yang baik itu biasanya tumbuh natural dari hubungan yang tulus, bukan dari sekadar 'kumpulin kontak sebanyak-banyaknya'." },
+  { id: 'lowongan', keys: ['lowongan','cari kerja','melamar','lamaran','cv','portofolio'],
+    reply: "Info lowongan kerja sekarang udah jauh lebih banyak beredar di media sosial — LinkedIn, Instagram, bahkan TikTok — dibanding cuma mengandalkan portal kerja konvensional aja. Jadi kalau kamu lagi cari kerja, coba jangan cuma pantengin satu sumber, tapi aktif juga di beberapa platform sekaligus biar peluangnya makin luas. Soal CV dan portofolio, yang paling penting itu relevansi dan kejelasan, bukan panjang-panjangan: pastikan informasi yang kamu tampilkan benar-benar nyambung sama posisi yang kamu lamar, gunakan bahasa yang ringkas dan mudah dipindai cepat oleh HRD (karena mereka biasanya cuma punya beberapa detik buat screening awal), dan kalau punya portofolio hasil kerja nyata (tugas kuliah, project pribadi, hasil magang), itu jauh lebih meyakinkan dibanding cuma daftar skill di atas kertas." },
+  { id: 'dukungan', keys: ['dukungan','support','keluarga','teman','sendirian','kesepian'],
+    reply: "Dukungan dari keluarga dan teman itu penting banget di masa transisi ini — bahkan di riset kami, 10 dari 10 responden bilang merekalah pihak yang paling membantu, jauh melebihi peran kampus atau sekolah yang justru nggak disebut sama sekali. Ini menunjukkan betapa besarnya peran orang-orang terdekat sebagai 'penyelamat' secara mental buat anak muda yang baru mulai kerja. Kalau kamu lagi ngerasa berat atau bahkan kesepian menghadapi masa transisi ini, coba jangan dipendam sendirian — cerita ke orang terdekat itu bukan tanda kamu lemah, justru itu langkah yang cukup berani dan sehat. Kalau kebetulan kamu ngerasa nggak punya banyak orang buat diajak cerita soal ini secara spesifik, itu juga salah satu alasan kenapa Siap? dibuat — supaya selalu ada 'teman ngobrol' yang paham konteks kekhawatiran spesifik anak muda menghadapi kerja pertama kali, kapanpun kamu butuh." },
+  { id: 'motivasi', keys: ['gak semangat','tidak semangat','malas','males','burnout kerja','capek mental'],
+    reply: "Wajar banget kalau motivasi naik-turun, apalagi di masa transisi besar kayak ini — otak kita butuh waktu buat menyesuaikan diri sama rutinitas dan tekanan baru yang belum pernah dialami sebelumnya. Yang penting dipahami, motivasi itu nggak selalu harus 'menyala terus' biar kamu tetap bisa jalan; kadang cukup dengan disiplin kecil aja tanpa harus nunggu semangat penuh. Coba pecah tujuan besar (misalnya 'jadi karyawan yang kompeten') jadi langkah-langkah kecil yang lebih konkret dan bisa dicapai harian atau mingguan, lalu sengaja rayakan progres sekecil apapun itu — walau cuma 'hari ini aku berhasil nanya ke atasan tanpa grogi'. Kebiasaan mengakui progres kecil ini, meskipun terdengar sepele, ternyata cukup efektif buat menjaga motivasi tetap hidup dalam jangka panjang." },
+  { id: 'cemas', keys: ['cemas','takut','khawatir','deg-degan','parno','nervous','gugup','stres','stress','anxiety','was-was','waswas','resah','gelisah','kepikiran'],
+    reply: "Wajar banget ngerasa gitu — dari data kami, hampir semua orang yang baru pertama kali kerja ngerasain kecemasan dalam bentuk apapun, entah itu soal skill, lingkungan baru, atau ekspektasi orang lain ke mereka. Jadi kalau kamu lagi ngerasa cemas sekarang, itu artinya kamu bukan sedang 'gagal siap-siap', itu justru bagian normal dari prosesnya. Yang bisa bantu meredakan kecemasan biasanya bukan menghilangkan rasa cemasnya sama sekali (karena itu hampir mustahil), tapi mengubahnya jadi sesuatu yang lebih terarah — misalnya dengan mencari tahu lebih spesifik apa sebenarnya yang bikin kamu takut, lalu menyiapkan langkah kecil buat menghadapinya satu-satu. Boleh cerita lebih spesifik, ini soal apa ya — skill tertentu yang belum kamu kuasai, lingkungan kerja yang belum kamu kenal, atau tekanan dari ekspektasi orang di sekitarmu? Biar aku bisa kasih arah yang lebih pas buat situasi kamu." },
+  { id: 'percaya_diri', keys: ['percaya diri','pede','kurang yakin','gak yakin','tidak yakin','self confidence','self-confidence','malu'],
+    reply: "Percaya diri itu sebenarnya berkembang seiring pengalaman, bukan sesuatu yang harus kamu capai 100% dulu sebelum berani mulai kerja — banyak orang salah kira harus 'merasa siap penuh' dulu baru boleh melangkah, padahal kenyataannya kebalik: rasa siap itu justru sering muncul SETELAH kamu mulai jalan dan mengumpulkan pengalaman kecil, bukan sebelum. Coba mulai dari hal-hal kecil yang udah kamu kuasai dengan cukup baik, buktikan ke diri sendiri lewat aksi nyata di situ, baru pelan-pelan tambahkan tantangan yang sedikit lebih besar. Setiap kali kamu berhasil melewati sesuatu yang tadinya bikin ragu, itu jadi 'bukti' baru yang memperkuat kepercayaan dirimu buat tantangan berikutnya. Jangan bandingkan proses ini sama orang lain juga, karena ritme membangun kepercayaan diri itu beda-beda buat tiap orang." },
+  { id: 'pertama_kali', keys: ['pertama kali kerja','baru mulai kerja','hari pertama','minggu pertama','belum pernah kerja sebelumnya'],
+    reply: "Hari-hari pertama kerja itu wajar terasa berat, asing, dan bikin capek secara mental meski secara fisik belum ngapa-ngapain berat — semua orang, bahkan yang kelihatannya paling pede sekalipun, pernah ngerasain fase canggung ini. Di masa-masa awal, fokus utamamu sebaiknya bukan langsung tampil sempurna atau berusaha 'membuktikan diri' secepat mungkin, tapi lebih ke observasi: kenali ritme kerja timmu, pahami cara komunikasi yang dipakai di kantor (formal atau santai), dan jangan ragu banyak bertanya walau kelihatannya pertanyaannya sederhana — itu jauh lebih baik daripada salah kerjain sesuatu karena sungkan nanya. Biasanya butuh sekitar beberapa minggu sampai kamu mulai merasa lebih terbiasa dengan ritme baru ini, jadi kasih waktu ke diri sendiri, jangan terburu-buru menilai diri gagal cuma karena minggu pertama masih berasa berat." },
+  { id: 'persiapan', keys: ['persiapan','siap-siap','mulai dari mana','langkah awal','harus ngapain','harus apa'],
+    reply: "Bagus banget kalau kamu udah mikirin persiapan dari sekarang, itu langkah yang sudah lebih maju dibanding banyak orang! Dari riset kami, kesiapan kerja itu sebenarnya nggak ditentukan sama seberapa lama kamu bersiap, tapi lebih ke tiga area yang saling melengkapi. Pertama, soft skill — terutama komunikasi dan kerja sama tim, karena ini yang paling sering disebut penting tapi paling jarang dilatih secara sengaja. Kedua, gambaran realistis soal dunia kerja — coba cari cerita nyata dari orang yang sudah bekerja, biar bayanganmu nggak jauh beda dari kenyataan dan kamu nggak gampang kaget nantinya. Ketiga, hard skill dasar yang sering dibutuhkan lintas bidang, seperti Excel/Office. Yang paling penting sebenarnya bukan menguasai ketiganya sampai sempurna sebelum mulai kerja — karena itu nggak realistis — tapi mulai membangun kebiasaan belajar bertahap dari sekarang. Mau fokus ke bagian mana dulu, biar aku bisa kasih langkah yang lebih detail?" },
+  { id: 'skill', keys: ['skill apa','kemampuan apa','harus bisa apa','skill yang dibutuhkan','kompetensi'],
+    reply: "Dari riset kami terhadap 10 responden, soft skill seperti komunikasi, adaptasi, dan kerja sama tim itu paling sering disebut penting — bahkan lebih sering disebut dibanding skill teknis semacam Excel atau bahasa asing. Menariknya, soft skill ini juga jadi sumber kekhawatiran paling besar, karena dianggap krusial tapi jarang benar-benar dilatih secara sengaja semasa sekolah atau kuliah — jadi banyak yang 'tahu itu penting' tapi belum merasa benar-benar menguasainya. Di sisi lain, hard skill dasar seperti Excel/Office tetap dibutuhkan di banyak jenis pekerjaan, jadi bukan berarti bisa diabaikan sama sekali. Kombinasi paling kuat biasanya adalah soft skill sebagai fondasi utama (karena itu yang menentukan bagaimana kamu beradaptasi dan bekerja sama dengan orang lain), ditambah hard skill dasar sebagai 'alat' yang mempermudah kerjaan teknis sehari-hari. Kamu sendiri ngerasa lebih perlu perkuat yang mana dulu?" },
+  { id: 'mental', keys: ['kesiapan mental','mental health','kesehatan mental','mental block','tertekan','tekanan'],
+    reply: "Kesiapan mental itu sama pentingnya, bahkan menurut riset kami cenderung lebih menentukan, dibanding kesiapan skill teknis semata — kami menemukan bahwa orang yang persiapannya paling lama sekalipun bisa tetap merasa belum siap kalau secara mental dia belum punya cara menghadapi rasa cemas dan ketidakpastian, sementara ada juga yang persiapannya relatif singkat tapi mentalnya lebih siap sehingga merasa jauh lebih percaya diri menghadapi pekerjaan barunya. Jadi kesiapan mental bukan sekadar 'bonus', itu salah satu fondasi utama. Beberapa hal kecil yang bisa mulai dilatih: biasakan refleksi diri secara rutin (misalnya nulis jurnal singkat soal apa yang bikin kamu cemas dan kenapa), cari dan pertahankan dukungan dari orang-orang terdekat, dan yang sering dilupakan — jangan ragu istirahat kalau memang lelah secara mental, karena memaksakan diri terus tanpa jeda justru bikin kualitas kerjamu menurun dalam jangka panjang." },
+  { id: 'organisasi', keys: ['organisasi','kegiatan kampus','ukm','kepanitiaan','soft skill dari mana'],
+    reply: "Ikut organisasi atau kepanitiaan di kampus/sekolah itu salah satu cara paling efektif buat latihan soft skill sebelum benar-benar masuk dunia kerja — ini semacam 'simulasi kecil' dari banyak hal yang nanti kamu hadapi di kantor: kerja sama dengan orang-orang yang karakternya beda-beda, tenggat waktu yang harus dikejar, koordinasi lintas tim, sampai bagaimana menghadapi konflik kecil dalam kelompok. Semua itu bentuk latihan komunikasi, manajemen waktu, dan kerja sama tim secara langsung, meski konteksnya belum se-formal dunia kerja beneran. Kalau kamu belum aktif di organisasi apapun, nggak perlu buru-buru daftar semua yang ada — pilih 1-2 yang benar-benar sesuai minatmu, karena keterlibatan yang tulus biasanya menghasilkan pembelajaran yang lebih dalam dibanding sekadar ikut banyak kegiatan tapi nggak benar-benar terlibat." },
+  { id: 'waktu', keys: ['manajemen waktu','atur waktu','time management','kepending','kebingungan waktu'],
+    reply: "Manajemen waktu itu kedengarannya sepele, tapi di dunia kerja ini jadi salah satu hal krusial yang langsung kelihatan bedanya antara orang yang keteteran dan yang keliatan tenang meski beban kerjaannya sama-sama banyak. Bedanya biasanya bukan soal siapa yang kerja lebih cepat, tapi siapa yang lebih baik dalam memprioritaskan. Coba mulai biasakan dua kebiasaan kecil ini: bikin to-do list harian (bisa di HP atau kertas, yang penting konsisten kamu cek), dan urutkan berdasarkan mana yang paling mendesak sekaligus paling penting — bukan cuma yang paling gampang dikerjain duluan. Selain itu, coba juga sisihkan sedikit waktu buffer di antara tugas-tugas, karena di dunia kerja hampir selalu ada hal mendadak yang muncul dan mengganggu jadwal yang udah kamu susun rapi. Kebiasaan kecil ini, kalau dilatih dari sekarang, bakal sangat membantu begitu kamu mulai kerja dengan beban tugas yang lebih banyak dan lebih dinamis." },
+];
+
+const fallbacks = [
+  "Setiap orang punya kekhawatiran yang beda-beda soal kerja pertama, dan itu benar-benar wajar — nggak ada satu cetakan 'siap kerja' yang sama buat semua orang. Yang paling penting bukan menghilangkan semua rasa cemas sekaligus (itu nggak realistis), tapi siapkan diri sedikit demi sedikit, jangan terus-terusan membandingkan progresmu sama orang lain karena ritme tiap orang beda, dan jangan ragu cari dukungan dari orang terdekat kalau lagi berat. Boleh cerita lebih detail, ini soal apa spesifiknya yang lagi kamu pikirkan? Biar aku bisa bantu kasih arah yang lebih pas buat situasimu.",
+  "Dari riset kami terhadap 10 responden, kesiapan kerja itu ternyata bukan soal siapa yang paling lama persiapannya, tapi lebih ke siapa yang punya cara menghadapi rasa cemasnya sendiri — ada yang udah nyiapin diri bertahun-tahun tapi tetap ngerasa belum siap, ada juga yang persiapannya singkat tapi ngerasa jauh lebih percaya diri. Jadi daripada mengejar 'siap 100%' dulu baru melangkah, coba fokus ke satu hal kecil yang realistis bisa kamu perbaiki minggu ini — itu sudah jadi langkah besar dibanding diam karena kewalahan mikirin semuanya sekaligus. Mau aku bantu carikan langkah yang lebih spesifik sesuai situasi kamu sekarang?",
+  "Rasanya wajar banget kalau di masa transisi menuju dunia kerja banyak hal terasa nggak pasti dan bikin kepikiran terus — itu memang salah satu fase yang paling menantang secara mental, meskipun jarang dibahas terbuka. Yang bisa betul-betul kamu kontrol di tengah ketidakpastian itu sebenarnya cukup sederhana: terus perkuat cara komunikasimu, biasakan diri pegang tanggung jawab kecil secara konsisten, dan jangan ragu bertanya kalau nanti bingung di tempat kerja — itu jauh lebih baik daripada memendam kebingungan sendirian. Boleh cerita lebih spesifik soal apa yang lagi paling kamu khawatirkan sekarang? Biar obrolan ini lebih kerasa nyambung sama situasimu.",
+];
+
+let fallbackIndex = 0;
+
+function pickResponse(text){
+  const t = text.toLowerCase();
+  for(const topic of topics){
+    if(topic.keys.some(k => t.includes(k))) return topic.reply;
+  }
+  const reply = fallbacks[fallbackIndex % fallbacks.length];
+  fallbackIndex++;
+  return reply;
+}
+
+function appendBubble(text, who){
+  const log = document.getElementById('demoLog');
+  const b = document.createElement('div');
+  b.className = 'bubble ' + who;
+  if(who === 'ai'){ b.innerHTML = '<b>Siap?</b><br>' + text; }
+  else { b.textContent = text; }
+  log.appendChild(b);
+  log.scrollTop = log.scrollHeight;
+  return b;
+}
+
+function askDemo(text){
+  appendBubble(text, 'user');
+  showTyping(text);
+}
+
+function showTyping(userText){
+  const log = document.getElementById('demoLog');
+  const typing = document.createElement('div');
+  typing.className = 'bubble ai';
+  typing.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  log.appendChild(typing);
+  log.scrollTop = log.scrollHeight;
+  setTimeout(()=>{
+    typing.remove();
+    appendBubble(pickResponse(userText), 'ai');
+  }, 650);
+}
+
+function openPro(){document.getElementById('proModal').classList.add('show');}
+function closePro(){document.getElementById('proModal').classList.remove('show');}
+
+function handleSubmit(e){
+  e.preventDefault();
+  const input = document.getElementById('demoInput');
+  const val = input.value.trim();
+  if(!val) return false;
+  appendBubble(val, 'user');
+  input.value = '';
+  showTyping(val);
+  return false;
+}
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('demoForm').addEventListener('submit', handleSubmit);
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){ askDemo(c.dataset.q); });
+  });
+  document.getElementById('openProBtn').addEventListener('click', function(){ if(window.siapBuyPro){window.siapBuyPro();}else{openPro();} });
+  document.getElementById('closeProBtn').addEventListener('click', closePro);
+  document.getElementById('proModal').addEventListener('click', function(e){ if(e.target===this) closePro(); });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
