@@ -1,7 +1,6 @@
-// sb_publishable_4y26yO3x3UzQDZ6T9yzA0A_ZKZC1UOg.
 window.SIAP_CONFIG = {
-  SUPABASE_URL: "", //https://iwsrbrtxnnnqjhijtjto.supabase.co
-  SUPABASE_ANON_KEY: "", // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3c3JicnR4bm5ucWpoaWp0anRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMzUyODMsImV4cCI6MjEwODcxMTI4M30.3eq91jC0ya6MUzCMQpWii-M8MLTNt1b41RhHFPHNQh0
-  MIDTRANS_CLIENT_KEY: "", // Mid-client-CR8NC6MquzVZbPMc
-  MIDTRANS_PRODUCTION: False // false = sandbox (uang tiruan)
+  SUPABASE_URL: "https://iwsrbrtxnnnqjhijtjto.supabase.co",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3c3JicnR4bm5ucWpoaWp0anRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMzUyODMsImV4cCI6MjEwODcxMTI4M30.3eq91jC0ya6MUzCMQpWii-M8MLTNt1b41RhHFPHNQh0",
+  MIDTRANS_CLIENT_KEY: "Mid-client-CR8NC6MquzVZbPMc",
+  MIDTRANS_PRODUCTION: false
 };
